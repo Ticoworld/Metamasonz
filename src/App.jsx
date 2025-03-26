@@ -1,7 +1,7 @@
 // App.jsx
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useSmoothScroll } from './hooks/useSmoothScroll'; // Assuming this exists
+import { useSmoothScroll } from './hooks/useSmoothScroll';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollProgress from './components/ScrollProgress';
@@ -14,9 +14,10 @@ import ProofOfBuild from './pages/ProofOfBuild';
 import LaunchProject from './pages/LaunchProject';
 import BookConsultation from './pages/BookConsultation';
 import Methodology from './pages/Methodology';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
-  useSmoothScroll(); // Assuming this is for smooth scrolling behavior
+  useSmoothScroll();
 
   return (
     <Router>
@@ -31,9 +32,10 @@ function App() {
             <Route path="/who-we-are" element={<WhoWeAre />} />
             <Route path="/solutions" element={<Solutions />} />
             <Route path="/proof" element={<ProofOfBuild />} />
-            <Route path="/launch-project" element={<LaunchProject />} /> {/* New route */}
-            <Route path="/book-consultation" element={<BookConsultation />} /> {/* New route */}
-            <Route path="/process" element={<Methodology />} /> {/* New route */}
+            <Route path="/launch-project" element={<LaunchProject />} />
+            <Route path="/book-consultation" element={<BookConsultation />} />
+            <Route path="/process" element={<Methodology />} />
+            <Route path="*" element={<NotFoundPage/>} /> {/* Catch-all for 404 */}
           </Routes>
         </Suspense>
       </main>

@@ -23,7 +23,7 @@ const CTASection = () => {
                 Launch Your Project
               </motion.button>
             </Link>
-            <Link to="/book-consultation">
+            {/* <Link to="/book-consultation">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -31,7 +31,7 @@ const CTASection = () => {
               >
                 Book Consultation
               </motion.button>
-            </Link>
+            </Link> */}
           </div>
           <p className="text-gray-600 dark:text-gray-400 mt-6 text-sm">
             Average response time: 2.3 hours

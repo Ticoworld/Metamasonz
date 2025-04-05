@@ -134,7 +134,7 @@ const Header = () => {
         {/* Theme Toggle */}
         <motion.button
           onClick={toggleTheme}
-          className="cursor-pointer absolute top-[53rem] left-4 md:left-7 border dark:border-gray-600 border-gray-300 bg-gray-200 p-1 rounded-lg"
+          className="cursor-pointer absolute md:top-[53rem] top-[56rem] left-4 md:left-7 border dark:border-gray-600 border-gray-300 bg-gray-200 p-1 rounded-lg"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >

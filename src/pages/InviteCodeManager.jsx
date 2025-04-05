@@ -10,6 +10,7 @@ const InviteCodeManager = () => {
     role: 'moderator'
   });
 
+  // Fetch invites on mount
   useEffect(() => {
     const fetchInvites = async () => {
       try {
@@ -29,6 +30,7 @@ const InviteCodeManager = () => {
     fetchInvites();
   }, []);
 
+  // Handle form field changes
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -36,6 +38,7 @@ const InviteCodeManager = () => {
     });
   };
 
+  // Generate a new invite code
   const generateInviteCode = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -62,6 +65,7 @@ const InviteCodeManager = () => {
         throw new Error(data.message || 'Failed to generate code');
       }
 
+      // Prepend the new invite to the codes array
       setCodes([data.data, ...codes]);
       toast.success('Invite code generated successfully');
       setFormData({ email: '', role: 'moderator' });
@@ -72,6 +76,7 @@ const InviteCodeManager = () => {
     }
   };
 
+  // Revoke an invite and update its status in state
   const revokeInvite = async (inviteId) => {
     if (!window.confirm('Are you sure you want to revoke this invite?')) return;
     
@@ -81,12 +86,14 @@ const InviteCodeManager = () => {
         method: 'POST',
         credentials: 'include'
       });
+      const data = await res.json();
       
       if (!res.ok) {
-        throw new Error('Failed to revoke invite');
+        throw new Error(data.message || 'Failed to revoke invite');
       }
 
-      setCodes(codes.filter(code => code._id !== inviteId));
+      // Update the invite in state with the new data
+      setCodes(codes.map(code => code._id === inviteId ? data.data : code));
       toast.success('Invite revoked successfully');
     } catch (error) {
       toast.error(error.message);
@@ -95,7 +102,7 @@ const InviteCodeManager = () => {
     }
   };
 
-  // New function to handle resending an invite
+  // Resend an invite (or reactivate a revoked invite) and update its data
   const resendInvite = async (inviteId) => {
     if (!window.confirm('Are you sure you want to resend this invite?')) return;
     
@@ -111,7 +118,7 @@ const InviteCodeManager = () => {
         throw new Error(data.message || 'Failed to resend invite');
       }
 
-      // Update the invite in the codes list with the new data
+      // Update the invite in state with the new data
       setCodes(codes.map(code => code._id === inviteId ? data.data : code));
       toast.success('Invite resent successfully');
     } catch (error) {
@@ -121,9 +128,10 @@ const InviteCodeManager = () => {
     }
   };
 
+  // Format expiration date/time
   const formatExpiration = (dateString) => {
     const date = new Date(dateString);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
 
   return (
@@ -173,9 +181,9 @@ const InviteCodeManager = () => {
             </form>
           </div>
 
+          {/* Invite Codes Display Section */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold mb-4">Active Invite Codes</h3>
-            
+            <h3 className="text-xl font-semibold mb-4">Invite Codes</h3>
             {fetching ? (
               <div className="flex justify-center py-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400"></div>
@@ -183,11 +191,24 @@ const InviteCodeManager = () => {
             ) : (
               <>
                 {codes.map((code) => (
-                  <div key={code._id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div key={code._id} className={`p-4 rounded-lg border ${
+                    code.status === 'revoked' ? 'bg-red-50 border-red-200' : 
+                    code.status === 'accepted' ? 'bg-green-50 border-green-200' : 
+                    'bg-gray-50 border-gray-200'
+                  }`}>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                       <div className="flex-1">
                         <div className="font-mono bg-gray-200 px-2 py-1 rounded mb-2 text-sm">
                           {code.code}
+                          {code.status !== 'sent' && (
+                            <span className={`ml-2 px-2 py-0.5 rounded text-xs ${
+                              code.status === 'revoked' ? 'bg-red-100 text-red-800' :
+                              code.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {code.status}
+                            </span>
+                          )}
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                           <p>
@@ -202,6 +223,9 @@ const InviteCodeManager = () => {
                         <div className="text-sm text-gray-600 text-right">
                           <p>Expires: {formatExpiration(code.expiresAt)}</p>
                           <p>Created: {new Date(code.createdAt).toLocaleDateString()}</p>
+                          {code.status === 'accepted' && (
+                            <p>Accepted: {new Date(code.acceptedAt).toLocaleDateString()}</p>
+                          )}
                         </div>
                         <div className="flex gap-2">
                           {code.status === 'sent' && (
@@ -222,12 +246,20 @@ const InviteCodeManager = () => {
                               </button>
                             </>
                           )}
+                          {code.status === 'revoked' && (
+                            <button
+                              onClick={() => resendInvite(code._id)}
+                              disabled={loading}
+                              className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200 disabled:opacity-50"
+                            >
+                              Reactivate
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
-                
                 {codes.length === 0 && !fetching && (
                   <div className="text-center text-gray-500 py-8">
                     No active invite codes

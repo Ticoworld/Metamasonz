@@ -24,7 +24,7 @@ const BookConsultation = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Consultation booked:", formData); // Replace with your submission logic
+    // console.log("Consultation booked:", formData); // Replace with your submission logic
     alert("Consultation request submitted! We’ll confirm your slot soon.");
     setFormData({ name: "", email: "", topic: "", preferredTime: "" });
   };

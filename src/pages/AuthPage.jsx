@@ -93,7 +93,6 @@ const AuthPage = () => {
       }
   
       // Store token and redirect
-      console.log(data);
       
       if (data.success) {
         toast.success(isLogin 

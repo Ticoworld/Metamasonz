@@ -10,7 +10,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import AuthRoute from "./components/AuthRoute";
 import NotFoundPage from "./pages/NotFoundPage";
 import CustomToaster from './components/Toaster';
-
+import FloatingThemeToggle from "./components/FloatingThemeToggle";
 
 // Lazy-loaded pages
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -38,6 +38,7 @@ function AppContent() {
       {isAdminRoute ? <AdminHeader /> : <Header />}
       <ScrollProgress />
       {!isAdminRoute && <FloatingCTA />}
+      {!isAdminRoute && <FloatingThemeToggle />}
 
       <main className={isAdminRoute ? "bg-gray-50 min-h-screen" : ""}>
         <Suspense fallback={<LoadingSpinner />}>

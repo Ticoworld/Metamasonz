@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IoSunnyOutline } from "react-icons/io5";
 import { MdNightsStay } from "react-icons/md";
 import { BiMenuAltRight } from "react-icons/bi";
@@ -9,7 +9,6 @@ import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
-  const [theme, setTheme] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const { scrollY } = useScroll();
   const location = useLocation();
@@ -20,30 +19,7 @@ const Header = () => {
 
   const toggleNav = () => setNavOpen(!navOpen);
 
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
-    } else {
-      setTheme("light");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    localStorage.setItem("theme", newTheme);
-    setTheme(newTheme);
-  };
+  
 
   // Navigation items that are sections on the LandingPage
   const navItems = [
@@ -131,19 +107,7 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Theme Toggle */}
-        <motion.button
-          onClick={toggleTheme}
-          className="cursor-pointer absolute md:top-[53rem] top-[56rem] left-4 md:left-7 border dark:border-gray-600 border-gray-300 bg-gray-200 p-1 rounded-lg"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          {theme === "dark" ? (
-            <IoSunnyOutline className="text-yellow-400 text-2xl" />
-          ) : (
-            <MdNightsStay className="text-gray-950 text-2xl" />
-          )}
-        </motion.button>
+       
 
         {/* Mobile Controls */}
         <div className="md:hidden flex items-center space-x-4">

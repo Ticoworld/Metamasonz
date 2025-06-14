@@ -48,8 +48,8 @@ const Hero = () => {
 
   const stats = [
     { number: 90, suffix: "%", label: "Success Rate" },
-    { number: 200, suffix: "+", label: "Projects Guided" },
-    { number: 4, suffix: "B+", label: "Total Raised" },
+    { number: 70, suffix: "+", label: "Projects Guided" },
+    { number: 768.3, suffix: "K+", label: "Total Raised" },
     { number: 10, suffix: "k+", label: "Community Members" },
   ];
 

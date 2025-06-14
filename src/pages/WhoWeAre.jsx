@@ -5,10 +5,10 @@ import { HashLink } from "react-router-hash-link";
 
 const WhoWeAre = () => {
   const stats = [
-    { number: 150, label: "Projects Launched", suffix: "+" },
-    { number: 8, label: "Years Experience" },
-    { number: 96, label: "Success Rate", suffix: "%" },
-    { number: 40, label: "Countries Served", suffix: "+" },
+    { number: 150, label: "Projects Contributed", suffix: "+" },
+    { number: 5, label: "Years Experience" },
+    { number: 90, label: "Success Rate", suffix: "%" },
+    { number: 27, label: "Countries Served", suffix: "+" },
   ];
 
   const principles = [

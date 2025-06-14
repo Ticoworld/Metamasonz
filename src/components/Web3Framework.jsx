@@ -31,14 +31,17 @@ const Web3Framework = () => {
   ];
 
   return (
-<section className="relative py-24 bg-gray-50 dark:bg-black/95 overflow-hidden min-h-[80vh]">
-{/* Animated Background */}
+    <section className="relative py-24 bg-gray-50 dark:bg-black/95 overflow-hidden min-h-[80vh]">
+      {/* Animated Background */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.2 }}
+        initial={{ opacity: 0.2, scale: 1.2 }}
         animate={{ opacity: 0.1, scale: 1 }}
         transition={{ duration: 2, repeat: Infinity, repeatType: "mirror" }}
         className="absolute inset-0 bg-[url('/image4.jpg')] bg-[size:120px] opacity-10 dark:opacity-[0.15]"
       />
+
+      {/* Overlay to darken the background image */}
+      <div className="absolute inset-0 bg-black opacity-80 dark:opacity-90" />
 
       <div className="relative container mx-auto px-4">
         <motion.div
@@ -64,7 +67,7 @@ const Web3Framework = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative bg-white dark:bg-black p-6 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-600 transition-all"
-              >
+            >
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 opacity-0 group-hover:opacity-100 transition-opacity" />
               
               <div className="relative z-10">
